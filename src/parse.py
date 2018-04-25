@@ -4,7 +4,7 @@ import json
 
 import nlgeval
 import pandas as pd
-import tqdm
+from tqdm import tqdm
 
 from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, METRICS
 
@@ -60,7 +60,7 @@ def gen_data():
     data = get_data()
     data = data[data[MODIFIED] != 'skip']
     data = data[data[MODIFIED].notnull()]
-    for _, row in tqdm(data.iterrows(), desc='Computing Metrics...', total=data.shape[0]):
+    for _, row in tqdm(data.iterrows(), desc='Parsing data...', total=data.shape[0]):
         entry_dict = {}
         entry_dict[ORIGINAL] = row[ORIGINAL]
         entry_dict[MODIFIED] = row[MODIFIED]
@@ -72,4 +72,4 @@ def gen_data():
 
 if __name__ == "__main__":
     dt = gen_data()
-    save_json(dt)
+    #save_json(dt)

@@ -41,5 +41,6 @@ def save_json(data_dic, file=OUTPUT_SORTED_DATA_FILE):
 
 if __name__ == '__main__':
     dt = get_json()
+    print(len(dt))
     sorted_dt = sort_json_dict(dt)
     save_json(sorted_dt)
