@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, METRICS
-
-import pandas as pd
 import json
-import tqdm
 
 import nlgeval
+import pandas as pd
+import tqdm
+
+from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, METRICS
 
 
 def get_data(file=DATA_FILE):
