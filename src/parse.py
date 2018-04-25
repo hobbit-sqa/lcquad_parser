@@ -66,7 +66,7 @@ def gen_data():
         entry_dict[MODIFIED] = row[MODIFIED]
         entry_dict[METRICS] = compute_metrics(str(row[ORIGINAL]), str(row[MODIFIED]))
         combined_dict[_] = entry_dict
-        print(entry_dict)
+        #print(entry_dict)
 
     return combined_dict
 
