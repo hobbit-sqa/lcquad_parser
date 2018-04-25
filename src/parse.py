@@ -16,7 +16,7 @@ def get_data(file=DATA_FILE):
     :return:
     '''
     # xls_file = pd.ExcelFile(file)
-    # print(xls_file.sheet_names)
+    #
     # df = pd.DataFrame()
     # for sheet_name in xls_file.sheet_names:
     #    df.append(xls_file.parse(sheet_name))
@@ -66,12 +66,10 @@ def gen_data():
         entry_dict[MODIFIED] = row[MODIFIED]
         entry_dict[METRICS] = compute_metrics(str(row[ORIGINAL]), str(row[MODIFIED]))
         combined_dict[_] = entry_dict
-        #print(entry_dict)
 
     return combined_dict
 
 
 if __name__ == "__main__":
     dt = gen_data()
-    print(dt)
     save_json(dt)
