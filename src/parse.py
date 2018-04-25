@@ -4,6 +4,7 @@ from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, METRICS
 
 import pandas as pd
 import json
+import tqdm
 
 import nlgeval
 
@@ -36,7 +37,7 @@ def save_json(data_dic, file=OUTPUT_DATA_FILE):
     '''
 
     with open(file, 'w') as f:
-        json.dumps(data_dic, f)
+        json.dump(data_dic, f, indent=2)
 
 
 def compute_metrics(hypothesis, references):
@@ -47,7 +48,7 @@ def compute_metrics(hypothesis, references):
     :return:
     '''
 
-    return nlgeval.compute_individual_metrics(hypothesis, references, False, True, False)
+    return nlgeval.compute_individual_metrics(hypothesis, references, True, True, False)
 
 
 def gen_data():
@@ -59,7 +60,7 @@ def gen_data():
     data = get_data()
     data = data[data[MODIFIED] != 'skip']
     data = data[data[MODIFIED].notnull()]
-    for _, row in data.iterrows():
+    for _, row in tqdm(data.iterrows(), desc='Computing Metrics...', total=data.shape[0]):
         entry_dict = {}
         entry_dict[ORIGINAL] = row[ORIGINAL]
         entry_dict[MODIFIED] = row[MODIFIED]
@@ -72,4 +73,5 @@ def gen_data():
 
 if __name__ == "__main__":
     dt = gen_data()
+    print(dt)
     save_json(dt)
