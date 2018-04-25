@@ -72,4 +72,4 @@ def gen_data():
 
 if __name__ == "__main__":
     dt = gen_data()
-    #save_json(dt)
+    save_json(dt)
