@@ -16,6 +16,9 @@ MODIFIED = 'Paraphrased Question'
 COMMENTS = 'Comments/Remark'
 METRICS = 'Metrics'
 VECS = 'VectorExtremaCosineSimilarity'
+GMS = 'GreedyMatchingScore'
+EACS = 'EmbeddingAverageCosineSimilairty'
+
 
 LIMIT = 1830
 LANGUAGE_EN = 'en'

@@ -4,7 +4,7 @@ import json
 from collections import OrderedDict
 
 from constants import OUTPUT_SORTED_DATA_FILE, OUTPUT_DATA_FILE, VECS, METRICS, LIMIT, LANGUAGE_EN, DATASET_ID, \
-    OUTPUT_QALD_FILE, ID, QUESTION, QUESTIONS, LANGUAGE, STRING, MODIFIED
+    OUTPUT_QALD_FILE, ID, QUESTION, QUESTIONS, LANGUAGE, STRING, MODIFIED, GMS, EACS
 from tqdm import tqdm
 
 
@@ -73,9 +73,33 @@ def export_to_qald(input_json_file=OUTPUT_DATA_FILE, metric=VECS, output_qald_fi
     json.dump(data_qlad, open(output_qald_file, 'w'), indent='\t', sort_keys=True)
 
 
+def calc_metrics_means():
+    '''
+
+    :return:
+    '''
+    data = get_json()
+    data_len = len(data)
+    mean_vecs = 0.0
+    mean_gms = 0.0
+    mean_eacs = 0.0
+    for key in data:
+        mean_eacs += data[key][METRICS][EACS]
+        mean_gms += data[key][METRICS][GMS]
+        mean_vecs += data[key][METRICS][VECS]
+    mean_vecs = mean_vecs / data_len
+    mean_gms = mean_gms / data_len
+    mean_eacs = mean_eacs / data_len
+
+    return {'total_number_of_questions': data_len, 'mean_eacs': mean_eacs, 'mean_gms': mean_gms, 'mean_vecs': mean_vecs}
+
+
 if __name__ == '__main__':
     # dt = get_json()
     # print(len(dt))
     # sorted_dt = sort_json_dict(dt)
     # save_json(sorted_dt)
-    export_to_qald()
+    #################################
+    # export_to_qald()
+    #################################
+    print(calc_metrics_means())
