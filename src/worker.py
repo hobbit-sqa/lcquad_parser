@@ -3,7 +3,9 @@
 import json
 from collections import OrderedDict
 
-from constants import OUTPUT_SORTED_DATA_FILE, OUTPUT_DATA_FILE, VECS, METRICS
+from constants import OUTPUT_SORTED_DATA_FILE, OUTPUT_DATA_FILE, VECS, METRICS, LIMIT, LANGUAGE_EN, DATASET_ID, \
+    OUTPUT_QALD_FILE, ID, QUESTION, QUESTIONS, LANGUAGE, STRING, MODIFIED
+from tqdm import tqdm
 
 
 def get_json(from_file=OUTPUT_DATA_FILE):
@@ -16,13 +18,14 @@ def get_json(from_file=OUTPUT_DATA_FILE):
     return json.load(open(from_file))
 
 
-def sort_json_dict(json_dict):
-    '''
+def sort_json_dict(json_dict, metric=VECS):
+    '''Sorts by metric given
 
+    :param str metric:
     :param json.JSON json_dict:
     :return:
     '''
-    ordered_items = sorted(json_dict.items(), key=lambda item: item[1][METRICS][VECS])
+    ordered_items = sorted(json_dict.items(), key=lambda item: item[1][METRICS][metric])
     ordered_dict = OrderedDict(ordered_items)
     return ordered_dict
 
@@ -36,11 +39,43 @@ def save_json(data_dic, file=OUTPUT_SORTED_DATA_FILE):
     '''
 
     with open(file, 'w') as f:
-        json.dump(data_dic, f, indent=2)
+        json.dump(data_dic, f, indent="\t")
+
+
+def export_to_qald(input_json_file=OUTPUT_DATA_FILE, metric=VECS, output_qald_file=OUTPUT_QALD_FILE, limit=LIMIT,
+                   language=LANGUAGE_EN, dataset_id=DATASET_ID):
+    '''
+
+    :param input_json_file:
+    :param limit:
+    :param language:
+    :param dataset_id:
+    :return:
+    '''
+    json_data = json.load(open(input_json_file))
+    ordered_items = sorted(json_data.items(), key=lambda item: item[1][METRICS][metric])
+    counter = 0
+    data_qlad = {}
+    data_qlad[ID] = dataset_id
+    questions_list = []
+
+    for obj in tqdm(ordered_items, desc='Building QALD file...', total=limit):
+        counter += 1
+        qlad_obj = {}
+        qlad_obj[ID] = str(counter)
+        qlad_obj[QUESTION] = [{LANGUAGE: language, STRING: obj[1][MODIFIED]}]
+        questions_list.append(qlad_obj)
+        if counter == limit:
+            break
+
+    data_qlad[QUESTIONS] = questions_list
+
+    json.dump(data_qlad, open(output_qald_file, 'w'), indent='\t', sort_keys=True)
 
 
 if __name__ == '__main__':
-    dt = get_json()
-    print(len(dt))
-    sorted_dt = sort_json_dict(dt)
-    save_json(sorted_dt)
+    # dt = get_json()
+    # print(len(dt))
+    # sorted_dt = sort_json_dict(dt)
+    # save_json(sorted_dt)
+    export_to_qald()
