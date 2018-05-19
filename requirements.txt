@@ -1,2 +1,11 @@
 pandas
 tqdm
+xlrd
+pip==9.0.3
+click==6.3
+nltk==3.1
+numpy==1.11.0
+scipy==0.17.0
+scikit-learn==0.17
+gensim==0.12.4
+Theano==0.8.1

@@ -4,7 +4,7 @@ import json
 from collections import OrderedDict
 
 from constants import OUTPUT_SORTED_DATA_FILE, OUTPUT_DATA_FILE, VECS, METRICS, LIMIT, LANGUAGE_EN, DATASET_ID, \
-    OUTPUT_QALD_FILE, ID, QUESTION, QUESTIONS, LANGUAGE, STRING, MODIFIED, GMS, EACS
+    OUTPUT_QALD_FILE, ID, QUESTION, QUESTIONS, LANGUAGE, STRING, MODIFIED, GMS, EACS, SPARQL
 from tqdm import tqdm
 
 
@@ -63,7 +63,7 @@ def export_to_qald(input_json_file=OUTPUT_DATA_FILE, metric=VECS, output_qald_fi
         counter += 1
         qlad_obj = {}
         qlad_obj[ID] = str(counter)
-        qlad_obj[QUESTION] = [{LANGUAGE: language, STRING: obj[1][MODIFIED]}]
+        qlad_obj[QUESTION] = [{LANGUAGE: language, STRING: obj[1][MODIFIED], SPARQL: obj[1][SPARQL]}]
         questions_list.append(qlad_obj)
         if counter == limit:
             break
@@ -95,11 +95,11 @@ def calc_metrics_means():
 
 
 if __name__ == '__main__':
-    # dt = get_json()
-    # print(len(dt))
-    # sorted_dt = sort_json_dict(dt)
-    # save_json(sorted_dt)
+    dt = get_json()
+    print(len(dt))
+    sorted_dt = sort_json_dict(dt)
+    save_json(sorted_dt)
     #################################
-    # export_to_qald()
+    export_to_qald()
     #################################
     print(calc_metrics_means())

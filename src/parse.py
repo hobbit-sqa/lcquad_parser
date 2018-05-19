@@ -6,7 +6,7 @@ import nlgeval
 import pandas as pd
 from tqdm import tqdm
 
-from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, METRICS
+from constants import DATA_FILE, OUTPUT_DATA_FILE, ORIGINAL, MODIFIED, SPARQL, METRICS
 
 
 def get_data(file=DATA_FILE):
@@ -48,7 +48,7 @@ def compute_metrics(hypothesis, references):
     :return:
     '''
 
-    return nlgeval.compute_individual_metrics(hypothesis, references, True, True, False)
+    return nlgeval.compute_individual_metrics(hypothesis, references, False, True, False)
 
 
 def gen_data():
@@ -62,6 +62,7 @@ def gen_data():
     data = data[data[MODIFIED].notnull()]
     for _, row in tqdm(data.iterrows(), desc='Parsing data...', total=data.shape[0]):
         entry_dict = {}
+        entry_dict[SPARQL] = row[SPARQL]
         entry_dict[ORIGINAL] = row[ORIGINAL]
         entry_dict[MODIFIED] = row[MODIFIED]
         entry_dict[METRICS] = compute_metrics(str(row[ORIGINAL]), str(row[MODIFIED]))
