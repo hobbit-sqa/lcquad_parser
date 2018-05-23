@@ -84,6 +84,9 @@ def replace_questions_in_qlad(questions_file=OUTPUT_DATA_FILE, data_file=LCQUAD_
     :return:
     '''
     json_lcquad_data = json.load(open(data_file))
+    copy_json = {'dataset': {'id': 'lcquad-v1'}, 'questions': []}
+    #copy_json["questions"] = []
+    print(copy_json)
     json_questions = json.load(open(questions_file))
     def find_question(question_str):
         '''
@@ -97,11 +100,12 @@ def replace_questions_in_qlad(questions_file=OUTPUT_DATA_FILE, data_file=LCQUAD_
         return None
 
 
-    for question in tqdm(json_lcquad_data['questions'], desc='Parsing LCQUAD...'):
-        if find_question(question['question'][0]['string']):
-            question['question'][0]['string']=find_question(question['question'][0]['string'])
+    for index in tqdm(range(len(json_lcquad_data['questions'])), desc='Parsing LCQUAD...'):
+        if find_question(json_lcquad_data['questions'][index]['question'][0]['string']):
+            json_lcquad_data['questions'][index]['question'][0]['string']=find_question(json_lcquad_data['questions'][index]['question'][0]['string'])
+            copy_json['questions'].append(json_lcquad_data['questions'][index])
 
-    save_json(json_lcquad_data, output_file)
+    save_json(copy_json, output_file)
 
 
 def calc_metrics_means():
