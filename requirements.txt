@@ -1,7 +1,7 @@
 pandas
 tqdm
 xlrd
-pip==9.0.3
+pip==19.2
 click==6.3
 nltk==3.4.5
 numpy==1.11.0
