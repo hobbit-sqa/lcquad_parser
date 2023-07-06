@@ -5,7 +5,7 @@ pip==21.1
 click==6.3
 nltk==3.6.6
 numpy==1.22.0
-scipy==0.17.0
+scipy==1.10.0
 scikit-learn==0.17
 gensim==0.12.4
 Theano==0.8.1
